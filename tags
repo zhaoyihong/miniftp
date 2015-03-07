@@ -1,0 +1,68 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+BIN	Makefile	/^BIN=miniftp$/;"	m	language:Make
+CC	Makefile	/^CC=g++$/;"	m	language:Make
+CCFLAGS	Makefile	/^CCFLAGS=-Wall -g$/;"	m	language:Make
+OBJS	Makefile	/^OBJS=main.o sysutils.o network_service.o$/;"	m	language:Make
+Pack_t	sysutils.h	/^}Pack_t;$/;"	t	language:C++	typeref:struct:pack
+_COMMON_H	common.h	9;"	d	language:C++
+_NETWORK_SERVICE_H	network_service.h	9;"	d	language:C++
+_SYSUTILS_H	sysutils.h	3;"	d	language:C++
+accept_timeout	sysutils.cpp	/^int accept_timeout(int fd,unsigned int wati_seconds)$/;"	f	language:C++	signature:(int fd,unsigned int wati_seconds)
+accept_timeout	sysutils.h	/^int accept_timeout(int fd,struct sockaddr_in *addr ,unsigned int wati_seconds);$/;"	p	language:C++	signature:(int fd,struct sockaddr_in *addr ,unsigned int wati_seconds)
+active_nonblock	sysutils.cpp	/^void active_nonblock(int fd)$/;"	f	language:C++	signature:(int fd)
+active_nonblock	sysutils.h	/^void active_nonblock(int fd);$/;"	p	language:C++	signature:(int fd)
+buf	sysutils.h	/^    char buf[1024];$/;"	m	language:C++	struct:pack	access:public
+client_service_readline	network_service.cpp	/^void client_service_readline(int sockfd)$/;"	f	language:C++	signature:(int sockfd)
+client_service_readline	network_service.h	/^void client_service_readline(int);$/;"	p	language:C++	signature:(int)
+client_service_readn	network_service.cpp	/^void client_service_readn(int sockfd)$/;"	f	language:C++	signature:(int sockfd)
+client_service_readn	network_service.h	/^void client_service_readn(int);$/;"	p	language:C++	signature:(int)
+connect_timeout	sysutils.cpp	/^int connect_timeout(int fd,unsigned int wati_seconds)$/;"	f	language:C++	signature:(int fd,unsigned int wati_seconds)
+connect_timeout	sysutils.h	/^int connect_timeout(int fd,struct sockaddr_in *addr,unsigned int wati_seconds);$/;"	p	language:C++	signature:(int fd,struct sockaddr_in *addr,unsigned int wati_seconds)
+deactive_nonblock	sysutils.cpp	/^void deactive_nonblock(int fd)$/;"	f	language:C++	signature:(int fd)
+deactive_nonblock	sysutils.h	/^void deactive_nonblock(int fd);$/;"	p	language:C++	signature:(int fd)
+err_exit	sysutils.cpp	/^void err_exit(const char *msg)$/;"	f	language:C++	signature:(const char *msg)
+err_exit	sysutils.h	/^void err_exit(const char *msg);$/;"	p	language:C++	signature:(const char *msg)
+getlocalip	sysutils.cpp	/^int getlocalip(char *ip)$/;"	f	language:C++	signature:(char *ip)
+getlocalip	sysutils.h	/^int getlocalip(char *ip);$/;"	p	language:C++	signature:(char *ip)
+getlocalport	sysutils.cpp	/^int getlocalport(int sockfd,int *port,char *ip)$/;"	f	language:C++	signature:(int sockfd,int *port,char *ip)
+len	sysutils.h	/^    int len;$/;"	m	language:C++	struct:pack	access:public
+main	client.cpp	/^int main(void)$/;"	f	language:C++	signature:(void)
+main	main.cpp	/^int main(void)$/;"	f	language:C++	signature:(void)
+pack	sysutils.h	/^typedef struct pack$/;"	s	language:C++
+pack::buf	sysutils.h	/^    char buf[1024];$/;"	m	language:C++	struct:pack	access:public
+pack::len	sysutils.h	/^    int len;$/;"	m	language:C++	struct:pack	access:public
+readPack	sysutils.h	/^int readPack(int fd,Pack_t *buf);$/;"	p	language:C++	signature:(int fd,Pack_t *buf)
+read_pack	sysutils.cpp	/^int read_pack(int fd,Pack_t *buf)$/;"	f	language:C++	signature:(int fd,Pack_t *buf)
+read_timeout	sysutils.cpp	/^int read_timeout(int fd,unsigned int wati_seconds)$/;"	f	language:C++	signature:(int fd,unsigned int wati_seconds)
+read_timeout	sysutils.h	/^int read_timeout(int fd,unsigned int wati_seconds);$/;"	p	language:C++	signature:(int fd,unsigned int wati_seconds)
+readline	sysutils.cpp	/^ssize_t readline(int fd,void *buf,size_t maxline)$/;"	f	language:C++	signature:(int fd,void *buf,size_t maxline)
+readline	sysutils.h	/^ssize_t readline(int fd,void *buf,size_t maxline);$/;"	p	language:C++	signature:(int fd,void *buf,size_t maxline)
+readn	sysutils.cpp	/^ssize_t readn(int fd,void *buf,size_t count)$/;"	f	language:C++	signature:(int fd,void *buf,size_t count)
+readn	sysutils.h	/^ssize_t readn(int fd,void *buf,size_t count);$/;"	p	language:C++	signature:(int fd,void *buf,size_t count)
+recv_fd	sysutils.cpp	/^void recv_fd(int sockfd,int fd)$/;"	f	language:C++	signature:(int sockfd,int fd)
+recv_fd	sysutils.h	/^void recv_fd(int sockfd,int fd);$/;"	p	language:C++	signature:(int sockfd,int fd)
+recv_peek	sysutils.cpp	/^ssize_t recv_peek(int fd,void *buf,size_t len)$/;"	f	language:C++	signature:(int fd,void *buf,size_t len)
+recv_peek	sysutils.h	/^ssize_t recv_peek(int fd,void *buf,size_t len);$/;"	p	language:C++	signature:(int fd,void *buf,size_t len)
+reuse_addr	sysutils.cpp	/^void reuse_addr(int fd)$/;"	f	language:C++	signature:(int fd)
+reuse_addr	sysutils.h	/^void reuse_addr(int fd);$/;"	p	language:C++	signature:(int fd)
+send_fd	sysutils.cpp	/^void send_fd(int sockfd,int fd)$/;"	f	language:C++	signature:(int sockfd,int fd)
+send_fd	sysutils.h	/^void send_fd(int sockfd,int fd);$/;"	p	language:C++	signature:(int sockfd,int fd)
+server_service_readline	network_service.cpp	/^void server_service_readline(int listenfd)$/;"	f	language:C++	signature:(int listenfd)
+server_service_readline	network_service.h	/^void server_service_readline(int);$/;"	p	language:C++	signature:(int)
+server_service_readn	network_service.cpp	/^void server_service_readn(int listenfd)$/;"	f	language:C++	signature:(int listenfd)
+server_service_readn	network_service.h	/^void server_service_readn(int);$/;"	p	language:C++	signature:(int)
+tcp_client	sysutils.cpp	/^int tcp_client(const char *host,unsigned int port)$/;"	f	language:C++	signature:(const char *host,unsigned int port)
+tcp_client	sysutils.h	/^int tcp_client(const char *host,unsigned int port);$/;"	p	language:C++	signature:(const char *host,unsigned int port)
+tcp_server	sysutils.cpp	/^int tcp_server(const char *host,unsigned int port)$/;"	f	language:C++	signature:(const char *host,unsigned int port)
+tcp_server	sysutils.h	/^int tcp_server(const char *host,unsigned int port);$/;"	p	language:C++	signature:(const char *host,unsigned int port)
+writePack	sysutils.h	/^int writePack(int fd,Pack_t *buf);$/;"	p	language:C++	signature:(int fd,Pack_t *buf)
+write_pack	sysutils.cpp	/^int write_pack(int fd,Pack_t *buf)$/;"	f	language:C++	signature:(int fd,Pack_t *buf)
+write_timeout	sysutils.cpp	/^int write_timeout(int fd,unsigned int wati_seconds)$/;"	f	language:C++	signature:(int fd,unsigned int wati_seconds)
+write_timeout	sysutils.h	/^int write_timeout(int fd,unsigned int wati_seconds);$/;"	p	language:C++	signature:(int fd,unsigned int wati_seconds)
+writen	sysutils.cpp	/^ssize_t writen(int fd,void *buf,size_t count)$/;"	f	language:C++	signature:(int fd,void *buf,size_t count)
+writen	sysutils.h	/^ssize_t writen(int fd,void *buf,size_t count);$/;"	p	language:C++	signature:(int fd,void *buf,size_t count)
