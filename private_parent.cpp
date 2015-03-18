@@ -10,6 +10,7 @@
 using namespace std;
 
 //协助子进程,处理子进程(ftp服务进程)发送来的命令.
+//
 void handle_parent(session_t& sess)
 {
     char cmd; //命令码

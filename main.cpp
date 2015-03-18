@@ -8,6 +8,7 @@
 #include  <iostream>
 #include  "sysutils.h"
 #include "session.h"
+#include    "str.h"
 
 using namespace std;
 
@@ -47,6 +48,10 @@ int main(void)
     }
     printf("seraddr:%s:%d\n",inet_ntoa(seraddr.sin_addr),ntohs(seraddr.sin_port));
     #endif
+
+    printf("%lld\n",str_to_longlong("1234567890"));
+    printf("%d\n",str_to_longlong("1234567890"));
+
 
     int conn; //已连接套接字
     while(1)

@@ -2,7 +2,7 @@
 CC=g++ 
 CCFLAGS=-Wall -g -std=c++11 -DDEBUG
 BIN=miniftp
-OBJS=main.o sysutils.o session.o ftp_protocol.o private_parent.o
+OBJS=main.o sysutils.o session.o ftp_protocol.o private_parent.o str.o
 $(BIN):$(OBJS)
 	$(CC) $(CCFLAGS) $^ -o $@
 %.o:%.cpp

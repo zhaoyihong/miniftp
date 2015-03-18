@@ -10,12 +10,13 @@ CCFLAGS	Makefile	/^CCFLAGS=-Wall -g -std=c++11 -DDEBUG$/;"	m	language:Make
 MAX_ARG	common.h	31;"	d	language:C++
 MAX_CMD	common.h	30;"	d	language:C++
 MAX_COMMAND_LINE	common.h	29;"	d	language:C++
-OBJS	Makefile	/^OBJS=main.o sysutils.o session.o ftp_protocol.o private_parent.o$/;"	m	language:Make
+OBJS	Makefile	/^OBJS=main.o sysutils.o session.o ftp_protocol.o private_parent.o str.o$/;"	m	language:Make
 Pack_t	sysutils.h	/^}Pack_t;$/;"	t	language:C++	typeref:struct:pack
 _COMMON_H	common.h	9;"	d	language:C++
 _FTP_PROTOCOL_H	ftp_protocol.h	9;"	d	language:C++
 _PRIVATE_PARENT_H	private_parent.h	9;"	d	language:C++
 _SESSION_H	session.h	2;"	d	language:C++
+_STR_H	str.h	8;"	d	language:C++
 _SYSUTILS_H	sysutils.h	3;"	d	language:C++
 __handle_sigchld	sysutils.cpp	/^void __handle_sigchld(int sig)$/;"	f	language:C++	signature:(int sig)
 __handle_sigchld	sysutils.h	/^void __handle_sigchld(int sig);$/;"	p	language:C++	signature:(int sig)
@@ -25,7 +26,7 @@ active_nonblock	sysutils.cpp	/^void active_nonblock(int fd)$/;"	f	language:C++	s
 active_nonblock	sysutils.h	/^void active_nonblock(int fd);$/;"	p	language:C++	signature:(int fd)
 arg	session.h	/^    char arg[MAX_ARG];$/;"	m	language:C++	struct:session_t	access:public
 begin_session	session.cpp	/^void begin_session(session_t &sess)$/;"	f	language:C++	signature:(session_t &sess)
-begin_session	session.h	/^void begin_session(session_t sess);$/;"	p	language:C++	signature:(session_t sess)
+begin_session	session.h	/^void begin_session(session_t& sess);$/;"	p	language:C++	signature:(session_t& sess)
 buf	sysutils.h	/^    char buf[1024];$/;"	m	language:C++	struct:pack	access:public
 child_fd	session.h	/^    int parent_fd,child_fd;$/;"	m	language:C++	struct:session_t	access:public
 cmd	session.h	/^    char cmd[MAX_CMD];$/;"	m	language:C++	struct:session_t	access:public
@@ -41,6 +42,10 @@ getlocalip	sysutils.cpp	/^int getlocalip(char *ip)$/;"	f	language:C++	signature:
 getlocalip	sysutils.h	/^int getlocalip(char *ip);$/;"	p	language:C++	signature:(char *ip)
 getsockaddr	sysutils.cpp	/^int getsockaddr(int sockfd,int *port,char *ip)$/;"	f	language:C++	signature:(int sockfd,int *port,char *ip)
 getsockaddr	sysutils.h	/^int getsockaddr(int,int *,char *);$/;"	p	language:C++	signature:(int,int *,char *)
+handle_child	ftp_protocol.cpp	/^void handle_child(session_t& sess)$/;"	f	language:C++	signature:(session_t& sess)
+handle_child	ftp_protocol.h	/^void handle_child(session_t& sess);$/;"	p	language:C++	signature:(session_t& sess)
+handle_parent	private_parent.cpp	/^void handle_parent(session_t& sess)$/;"	f	language:C++	signature:(session_t& sess)
+handle_parent	private_parent.h	/^void handle_parent(session_t& sess); $/;"	p	language:C++	signature:(session_t& sess)
 len	sysutils.h	/^    int len;$/;"	m	language:C++	struct:pack	access:public
 main	main.cpp	/^int main(void)$/;"	f	language:C++	signature:(void)
 pack	sysutils.h	/^typedef struct pack$/;"	s	language:C++
@@ -74,6 +79,16 @@ session_t::cmdline	session.h	/^    char cmdline[MAX_COMMAND_LINE];$/;"	m	languag
 session_t::ctrl_fd	session.h	/^    int ctrl_fd;$/;"	m	language:C++	struct:session_t	access:public
 session_t::parent_fd	session.h	/^    int parent_fd,child_fd;$/;"	m	language:C++	struct:session_t	access:public
 session_t::session_t	session.h	/^    session_t()$/;"	f	language:C++	struct:session_t	access:public	signature:()
+str_all_space	str.cpp	/^int str_all_space(const char *str)$/;"	f	language:C++	signature:(const char *str)
+str_all_space	str.h	/^int str_all_space(const char *str);$/;"	p	language:C++	signature:(const char *str)
+str_octal_to_unix	str.h	/^unsigned int str_octal_to_unix(const char *str);$/;"	p	language:C++	signature:(const char *str)
+str_split	str.cpp	/^void str_split(const char *str,char *left ,char *right,char c)$/;"	f	language:C++	signature:(const char *str,char *left ,char *right,char c)
+str_split	str.h	/^void str_split(const char *str,char *left ,char *right,char c);$/;"	p	language:C++	signature:(const char *str,char *left ,char *right,char c)
+str_to_longlong	str.h	/^long long str_to_longlong(const char *str);$/;"	p	language:C++	signature:(const char *str)
+str_trim_crlf	str.cpp	/^void str_trim_crlf(char *str)$/;"	f	language:C++	signature:(char *str)
+str_trim_crlf	str.h	/^void str_trim_crlf(char *str);$/;"	p	language:C++	signature:(char *str)
+str_upper	str.cpp	/^void str_upper(char *str)$/;"	f	language:C++	signature:(char *str)
+str_upper	str.h	/^void str_upper(char *str);$/;"	p	language:C++	signature:(char *str)
 tcp_client	sysutils.cpp	/^int tcp_client(const char *host,unsigned int port)$/;"	f	language:C++	signature:(const char *host,unsigned int port)
 tcp_client	sysutils.h	/^int tcp_client(const char *host,unsigned int port);$/;"	p	language:C++	signature:(const char *host,unsigned int port)
 tcp_server	sysutils.cpp	/^int tcp_server(const char *host,unsigned int port)$/;"	f	language:C++	signature:(const char *host,unsigned int port)
