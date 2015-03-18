@@ -15,12 +15,14 @@ void err_exit(const char *msg)
  */
 int tcp_server(const char *host,unsigned int port)
 {
+    //创建监听socket
     int listenfd = socket(PF_INET,SOCK_STREAM,0);
     if(listenfd == -1)
     {
         err_exit("socket");
     }
 
+    //获取绑定的地址
     struct sockaddr_in seraddr;
     memset(&seraddr,0,sizeof(seraddr));
     seraddr.sin_family = AF_INET;
@@ -29,42 +31,43 @@ int tcp_server(const char *host,unsigned int port)
     //根据输入的host不同,绑定的ip地址也不同. 如果host为NULL,则绑定所有IP地址
     if(host != NULL) //host不为NULL,绑定指定的host
     {
-        //host可能是ip地址,也可能是主机名. 当两者都不是时,会在gethostbyname中报错
-
-        struct in_addr tmp_addr;
-        if( inet_aton(host,&tmp_addr) != 0)  //host是ip地址
+        //host可能是ip地址,也可能是主机名
+        //如果是ip地址 inet_aton直接给出,如果是主机名,通过主机名获取ip
+        if( inet_aton(host,&(seraddr.sin_addr)) == 0)  
         {
-            seraddr.sin_addr = tmp_addr;
-        }
-        else //host是主机名
-        {
+            //通过主机名获取ip地址
             hostent *hp = gethostbyname(host);
+            
             if(NULL == hp)
             {
                 err_exit("gethostbyname");
             }
-
-            seraddr.sin_addr = *(struct in_addr*)hp->h_addr_list;
+            seraddr.sin_addr = *(struct in_addr*)hp->h_addr;
+        
         }
     }
     else
     {
+        //当host为NULL时,使用任意ip地址
         seraddr.sin_addr.s_addr = htonl(INADDR_ANY);
     }
 
     //端口重用
     reuse_addr(listenfd);
 
+    //绑定ip地址和端口,将socket转化为被动socket
     if(bind(listenfd,(sockaddr *)&seraddr,(socklen_t)sizeof(seraddr)) < 0)
     {
         err_exit("bind");
     }
 
+    //监听已绑定的ip地址
     if(listen(listenfd,SOMAXCONN) < 0)
     {
         err_exit("listen");
     }
 
+    //返回监听socket号
     return listenfd;     
 } 
  
@@ -155,7 +158,7 @@ int getlocalip(char *ip)
         return -1;
     }
   
-    /*
+    /*//获取所有的IP
     int i = 0;
     while(hp->h_addr_list[i] != NULL)
     {
@@ -169,13 +172,13 @@ int getlocalip(char *ip)
 
 
 /**
- *getlocalport - 获取本地端口和地址,适用于没有绑定就connet之后对使用的端口的获取
+ *getsockaddr - 获取本地端口和地址,适用于没有绑定就connet之后对使用的端口的获取
  *@sockfd 已连接或者已绑定的套接口
  *@port socket号对应的本地端口
  *@ip socket号对应的本地ip
  *返回值 0表示成功获取,-1表示出错
  */
-int getlocalport(int sockfd,int *port,char *ip)
+int getsockaddr(int sockfd,int *port,char *ip)
 {
     sockaddr_in localaddr;
     socklen_t addrlen = sizeof(localaddr);
@@ -208,7 +211,6 @@ void active_nonblock(int fd)
     {
         err_exit("fcntl");
     }
-
 }
 
 /**
@@ -403,15 +405,105 @@ ssize_t readline(int fd,void *buf,size_t maxline)
     return -1;
 }
 
-//发送与接收描述符
-void send_fd(int sockfd,int fd)
+/**
+ *send_fd - 发送文件描述符
+ *@sockfd socket号
+ *@send_fd 发送的文件描述符
+ */
+void send_fd(int sockfd,int send_fd)
 {
+    struct msghdr msg;
+    struct cmsghdr *p_cmsg; //指向辅助数据
+    struct iovec vec;                        //缓冲区
+    char cmsgbuf[CMSG_SPACE(sizeof(send_fd))]; //辅助信息缓冲区
+    int *p_fds;
+    
+    char sendchar = 0; //我们不需发送正常数据,所以只定义一个字节的缓冲区
+    
+    msg.msg_control = cmsgbuf;
+    msg.msg_controllen = sizeof(cmsgbuf);
+    msg.msg_name = NULL;
+    msg.msg_namelen = 0;
+    msg.msg_iov = &vec;
+    msg.msg_iovlen = 1;
+    msg.msg_flags = 0;
 
+    //填充缓冲区
+    vec.iov_base = &sendchar;
+    vec.iov_len = sizeof(sendchar);
+
+    //填充辅助信息
+    p_cmsg = CMSG_FIRSTHDR(&msg); //获取第一个辅助数据
+    p_cmsg->cmsg_len = CMSG_LEN(sizeof(send_fd));
+    p_cmsg->cmsg_level = SOL_SOCKET;
+    p_cmsg->cmsg_type = SCM_RIGHTS;
+    p_fds = (int *)CMSG_DATA(p_cmsg);
+    *p_fds = send_fd;
+
+    int ret;
+    while((ret=sendmsg(sockfd,&msg,0))==-1 && errno==EINTR);
+    if(-1 == ret)
+    {
+        err_exit("sendmsg");
+    }
 }
 
-void recv_fd(int sockfd,int fd)
-{
 
+
+/**
+ *recv_fd - 接收文件描述符
+ *@sockfd:从socket号接收
+ *返回接收的文件描述符
+ */
+int recv_fd(int sockfd)
+{
+    struct msghdr msg;
+    char recvchar;
+    struct iovec vec;
+    int recv_fd;
+    char cmsgbuf[CMSG_SPACE(sizeof(recv_fd))];
+    struct cmsghdr *p_cmsg;
+    int *p_fd;
+
+    vec.iov_base = &recvchar;
+    vec.iov_len = sizeof(recvchar);
+
+    msg.msg_name = NULL;
+    msg.msg_namelen = 0;
+    msg.msg_iov = &vec;
+    msg.msg_iovlen = 1;
+    msg.msg_control = cmsgbuf;
+    msg.msg_controllen = sizeof(cmsgbuf);
+    msg.msg_flags = 0;
+
+    p_fd = (int *)CMSG_DATA(CMSG_FIRSTHDR(&msg));
+    *p_fd = -1;
+
+    int ret;
+    while((ret=recvmsg(sockfd,&msg,0)) == -1 && errno == EINTR) ;
+   
+    //发送的数据只有1字节 iov中
+    if( 1 != ret)
+    {
+        err_exit("recvmsg");
+    }
+
+
+    p_cmsg = CMSG_FIRSTHDR(&msg);
+    if(NULL == p_cmsg)
+    {
+        err_exit("no passed fd");
+    }
+
+    p_fd = (int *)CMSG_DATA(p_cmsg);
+    recv_fd = *p_fd;
+
+    if(-1 == recv_fd)
+    {
+        err_exit("no passed fd");
+    }
+
+    return recv_fd;
 }
 
 

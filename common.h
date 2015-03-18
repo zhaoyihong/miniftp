@@ -24,6 +24,11 @@
 #include  <assert.h>
 #include  <signal.h>
 #include  <sys/wait.h>
+#include  <pwd.h>
+
+#define MAX_COMMAND_LINE  1024
+#define MAX_CMD 32
+#define MAX_ARG 1024
 
 
 #endif

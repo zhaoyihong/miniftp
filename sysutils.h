@@ -12,7 +12,7 @@ void err_exit(const char *msg);
 int getlocalip(char *ip);
 
 //获取本地ip和端口
-int getlocalport(int,int *,char *);
+int getsockaddr(int,int *,char *);
 
 
 //描述符阻塞与解除阻塞
