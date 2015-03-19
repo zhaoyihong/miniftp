@@ -87,12 +87,61 @@ void str_upper(char *str)
  */
 long long str_to_longlong(const char *str)
 {
-    return atoll(str);
+    //return atoll(str);//系统函数
+
+    long long result = 0;
+    long long mult = 1;
+
+    int len = strlen(str);
+    if(len > 20) 
+    {
+        return 0;
+    }
+
+    int i;
+    for(i = len-1; i >= 0; -- i)
+    {
+        char ch = str[i];
+        if(ch < '0' ||  ch > '9')
+        {
+            return 0;
+        }
+
+        result += (ch - '0')*mult; 
+        mult *= 10;
+    }
+
+    return result;
 }
 
-////字符串按照八进制转化为无符号整型
+/**
+ * str_octal_to_unix - 字符串按照八进制转化为无符号整型
+ * str : 八进制的字符串
+ * 返回十进制的值
+ */
 unsigned int str_octal_to_unix(const char *str)
 {
-    return strtol(str,NULL,8);
+    unsigned result = 0;
+    unsigned int mult = 1;
 
+    int len = strlen(str);
+    if(len > 10) 
+    {
+        return 0;
+    }
+
+    int i;
+    for(i = len-1; i >= 0; -- i)
+    {
+        char ch = str[i];
+        if(ch < '0' ||  ch > '7')
+        {
+            return 0;
+        }
+
+        result += (ch - '0')*mult; 
+        mult = mult << 3;
+    }
+
+    return result;
 }

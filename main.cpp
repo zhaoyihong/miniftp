@@ -49,9 +49,10 @@ int main(void)
     printf("seraddr:%s:%d\n",inet_ntoa(seraddr.sin_addr),ntohs(seraddr.sin_port));
     #endif
 
-    printf("%lld\n",str_to_longlong("1234567890"));
-    printf("%d\n",str_to_longlong("1234567890"));
+    unsigned int result = str_octal_to_unix("0123");
+    printf("%d\n",result);
 
+    
 
     int conn; //已连接套接字
     while(1)
